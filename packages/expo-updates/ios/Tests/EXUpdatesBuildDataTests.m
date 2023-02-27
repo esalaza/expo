@@ -2,7 +2,6 @@
 
 #import <XCTest/XCTest.h>
 
-#import <EXUpdates/EXUpdatesDatabase.h>
 #import <EXUpdates/EXUpdatesBuildData+Tests.h>
 
 #import "EXUpdates-Swift.h"
@@ -41,7 +40,7 @@ static NSString * const scopeKey = @"test";
   _db = [[EXUpdatesDatabase alloc] init];
   dispatch_sync(_db.databaseQueue, ^{
     NSError *dbOpenError;
-    [_db openDatabaseInDirectory:_testDatabaseDir withError:&dbOpenError];
+    [_db openDatabaseInDirectory:_testDatabaseDir error:&dbOpenError];
     XCTAssertNil(dbOpenError);
   });
 
@@ -146,7 +145,7 @@ static NSString * const scopeKey = @"test";
 - (void)test_ensureBuildDataIsConsistent_buildDataIsNull {
   dispatch_sync(_db.databaseQueue, ^{
     NSError *error;
-    NSDictionary *staticBuildData = [_db staticBuildDataWithScopeKey:scopeKey error:&error];
+    NSDictionary *staticBuildData = [_db staticBuildDataWithScopeKey:scopeKey error:&error].jsonData;
     XCTAssertNil(staticBuildData);
 
     NSArray<EXUpdatesUpdate *> *allUpdates = [_db allUpdatesWithConfig:_configChannelTest error:&error];
@@ -160,7 +159,7 @@ static NSString * const scopeKey = @"test";
 
   dispatch_sync(_db.databaseQueue, ^{
       NSError *error;
-      NSDictionary *newStaticBuildData = [_db staticBuildDataWithScopeKey:scopeKey error:&error];
+      NSDictionary *newStaticBuildData = [_db staticBuildDataWithScopeKey:scopeKey error:&error].jsonData;
       XCTAssertNotNil(newStaticBuildData);
       XCTAssertNil(error);
 
@@ -189,7 +188,7 @@ static NSString * const scopeKey = @"test";
 
   dispatch_sync(_db.databaseQueue, ^{
     NSError *error;
-    NSDictionary *staticBuildData = [_db staticBuildDataWithScopeKey:scopeKey error:nil];
+    NSDictionary *staticBuildData = [_db staticBuildDataWithScopeKey:scopeKey error:nil].jsonData;
 
 
     XCTAssertTrue([staticBuildData isEqualToDictionary:[EXUpdatesBuildData getBuildDataFromConfig:_configChannelTest]]);
@@ -215,7 +214,7 @@ static NSString * const scopeKey = @"test";
 
   dispatch_sync(_db.databaseQueue, ^{
     NSError *error;
-    NSDictionary *staticBuildData = [_db staticBuildDataWithScopeKey:scopeKey error:nil];
+    NSDictionary *staticBuildData = [_db staticBuildDataWithScopeKey:scopeKey error:nil].jsonData;
 
 
     XCTAssertTrue([staticBuildData isEqualToDictionary:[EXUpdatesBuildData getBuildDataFromConfig:_configReleaseChannelTest]]);
@@ -240,7 +239,7 @@ static NSString * const scopeKey = @"test";
 
   dispatch_sync(_db.databaseQueue, ^{
     NSError *error;
-    NSDictionary *staticBuildData = [_db staticBuildDataWithScopeKey:scopeKey error:&error];
+    NSDictionary *staticBuildData = [_db staticBuildDataWithScopeKey:scopeKey error:&error].jsonData;
     XCTAssertTrue([staticBuildData isEqualToDictionary:[EXUpdatesBuildData getBuildDataFromConfig:_configChannelTestTwo]]);
     XCTAssertNil(error);
 
@@ -263,7 +262,7 @@ static NSString * const scopeKey = @"test";
 
   dispatch_sync(_db.databaseQueue, ^{
     NSError *error;
-    NSDictionary *staticBuildData = [_db staticBuildDataWithScopeKey:scopeKey error:&error];
+    NSDictionary *staticBuildData = [_db staticBuildDataWithScopeKey:scopeKey error:&error].jsonData;
     XCTAssertTrue([staticBuildData isEqualToDictionary:[EXUpdatesBuildData getBuildDataFromConfig:_configReleaseChannelTestTwo]]);
     XCTAssertNil(error);
 

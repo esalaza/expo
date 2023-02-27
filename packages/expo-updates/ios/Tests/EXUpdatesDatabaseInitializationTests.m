@@ -2,11 +2,11 @@
 
 #import <XCTest/XCTest.h>
 
-#import <EXUpdates/EXUpdatesDatabaseInitialization+Tests.h>
 #import <EXUpdates/EXUpdatesDatabaseMigration4To5.h>
 #import <EXUpdates/EXUpdatesDatabaseMigration5To6.h>
 #import <EXUpdates/EXUpdatesDatabaseMigration6To7.h>
-#import <EXUpdates/EXUpdatesDatabaseUtils.h>
+
+#import "EXUpdates-Swift.h"
 
 #import <sqlite3.h>
 

@@ -1,7 +1,6 @@
 //  Copyright © 2021 650 Industries. All rights reserved.
 
 #import <EXUpdates/EXUpdatesDatabaseMigration5To6.h>
-#import <EXUpdates/EXUpdatesDatabaseUtils.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
